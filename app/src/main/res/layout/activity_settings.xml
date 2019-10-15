@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SettingsActivity">
+
+    <TextView
+        android:id="@+id/settingsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Settings"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/mapIdH"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="map height"
+        android:layout_margin="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/Map_Height"
+        app:layout_constraintTop_toBottomOf="@id/settingsTitle" />
+
+    <EditText
+        android:id="@+id/Map_Height"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="height"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/mapIdH"
+        app:layout_constraintTop_toBottomOf="@id/settingsTitle"/>
+
+    <TextView
+        android:id="@+id/MapIdW"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="map width"
+        android:layout_margin="30dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/Map_Width"
+        app:layout_constraintTop_toBottomOf="@id/mapIdH" />
+
+    <EditText
+        android:id="@+id/Map_Width"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="width"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="10dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/MapIdW"
+        app:layout_constraintTop_toBottomOf="@id/Map_Height" />
+
+    <TextView
+        android:id="@+id/money"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Money"
+        android:layout_margin="30dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/moneyDetail"
+        app:layout_constraintTop_toBottomOf="@id/MapIdW" />
+
+    <EditText
+        android:id="@+id/moneyDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="amount"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/money"
+        app:layout_constraintTop_toBottomOf="@id/Map_Width" />
+
+    <Button
+        android:id="@+id/saveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save settings"
+        android:layout_marginLeft="180dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
+
+</android.support.constraint.ConstraintLayout>

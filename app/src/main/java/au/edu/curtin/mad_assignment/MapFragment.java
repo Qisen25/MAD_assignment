@@ -143,6 +143,7 @@ public class MapFragment extends Fragment
 
     public void resetMap()
     {
+        gameData.reset();
         adapter.notifyItemRangeChanged(0, settings.getMapHeight() * settings.getMapWidth());
     }
 }
