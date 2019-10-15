@@ -15,18 +15,6 @@ public class Settings
     private int commBuildingCost;
     private int roadBuildingCost;
 
-    private static Settings instance = null;
-
-    public static Settings get()
-    {
-        if(instance == null)
-        {
-            instance = new Settings();
-        }
-
-        return instance;
-    }
-
     public Settings()
     {
         mapWidth = 50;
@@ -40,6 +28,21 @@ public class Settings
         houseBuildingCost = 100;
         commBuildingCost = 500;
         roadBuildingCost = 20;
+    }
+
+    public Settings(int width, int height, int money)
+    {
+        this.mapWidth = width;
+        this.mapHeight = height;
+        this.initialMoney = money;
+        this.familySize = 4;
+        this.shopSize = 6;
+        this.salary = 10;
+        this.taxRate = 0.3;
+        this.serviceCost = 2;
+        this.houseBuildingCost = 100;
+        this.commBuildingCost = 500;
+        this.roadBuildingCost = 20;
     }
 
     public int getMapWidth()

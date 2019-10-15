@@ -24,45 +24,43 @@
         android:text="map height"
         android:layout_margin="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/Map_Height"
+        app:layout_constraintRight_toLeftOf="@id/heightInput"
         app:layout_constraintTop_toBottomOf="@id/settingsTitle" />
 
     <EditText
-        android:id="@+id/Map_Height"
+        android:id="@+id/heightInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="height"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="20dp"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toRightOf="@id/mapIdH"
-        app:layout_constraintTop_toBottomOf="@id/settingsTitle"/>
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/settingsTitle" />
 
     <TextView
-        android:id="@+id/MapIdW"
+        android:id="@+id/mapIdW"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="map width"
         android:layout_margin="30dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/Map_Width"
+        app:layout_constraintRight_toLeftOf="@id/widthInput"
         app:layout_constraintTop_toBottomOf="@id/mapIdH" />
 
     <EditText
-        android:id="@+id/Map_Width"
+        android:id="@+id/widthInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="10dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="width"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="10dp"
+        app:layout_constraintLeft_toRightOf="@id/mapIdW"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/MapIdW"
-        app:layout_constraintTop_toBottomOf="@id/Map_Height" />
+        app:layout_constraintTop_toBottomOf="@id/heightInput" />
 
     <TextView
         android:id="@+id/money"
@@ -71,21 +69,20 @@
         android:text="Money"
         android:layout_margin="30dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/moneyDetail"
-        app:layout_constraintTop_toBottomOf="@id/MapIdW" />
+        app:layout_constraintRight_toLeftOf="@id/moneyInput"
+        app:layout_constraintTop_toBottomOf="@id/mapIdW" />
 
     <EditText
-        android:id="@+id/moneyDetail"
+        android:id="@+id/moneyInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="amount"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="20dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toRightOf="@id/money"
-        app:layout_constraintTop_toBottomOf="@id/Map_Width" />
+        app:layout_constraintTop_toBottomOf="@id/widthInput" />
 
     <Button
         android:id="@+id/saveButton"

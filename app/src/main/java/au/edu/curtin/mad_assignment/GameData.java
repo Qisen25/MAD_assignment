@@ -1,14 +1,12 @@
 package au.edu.curtin.mad_assignment;
 
-import java.util.Random;
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import au.edu.curtin.mad_assignment.GameDataSchema.SettingsTable;
 
 public class GameData
 {
-    private static final int[] GRASS = {R.drawable.ic_grass1, R.drawable.ic_grass2,
-            R.drawable.ic_grass3, R.drawable.ic_grass4};
-
-    private static final Random rng = new Random();
-
     private static GameData instance = null;
 
     private MapElement[][] map;
@@ -16,6 +14,29 @@ public class GameData
     private Settings settings;
     private int money;
     private int gameTime;
+
+    private SQLiteDatabase db;
+    private SettingsCursor setCursor;
+
+    public void load(Context context)
+    {
+        this.db = new GameDataDbHelper(context.getApplicationContext()).getWritableDatabase();
+        setCursor = new SettingsCursor(db.query(SettingsTable.NAME, null, null, null,
+                null, null, null, null));
+        try
+        {
+            setCursor.moveToFirst();
+            while(!setCursor.isAfterLast())
+            {
+                this.settings = setCursor.getSettings();
+                setCursor.moveToNext();
+            }
+        }
+        finally
+        {
+            setCursor.close();
+        }
+    }
 
     public static GameData get()
     {
@@ -35,12 +56,7 @@ public class GameData
             {
                 MapElement element;
 
-                grid[i][j] = new MapElement(true,
-                        R.drawable.ic_grass1,
-                        R.drawable.ic_grass2,
-                        R.drawable.ic_grass3,
-                        R.drawable.ic_grass4,
-                        null);
+                grid[i][j] = new MapElement(true,null);
             }
         }
         return grid;
@@ -48,8 +64,14 @@ public class GameData
 
     protected GameData()
     {
-        settings = Settings.get();
+        settings = new Settings();
         this.map = generateGrid(settings.getMapHeight(), settings.getMapWidth());
+        this.money = settings.getInitialMoney();
+    }
+
+    public Settings getSettings()
+    {
+        return settings;
     }
 
     public int getMoney()
@@ -80,5 +102,35 @@ public class GameData
     public void reset()
     {
         this.map = generateGrid(settings.getMapHeight(), settings.getMapWidth());
+    }
+
+    public void editSetting(Settings sett)
+    {
+        ContentValues cv = new ContentValues();
+        cv.put(SettingsTable.Cols.MAP_HEIGHT, sett.getMapHeight());
+        cv.put(SettingsTable.Cols.MAP_WIDTH, sett.getMapWidth());
+        cv.put(SettingsTable.Cols.MONEY, sett.getInitialMoney());
+
+        String[] where = { "1" };
+
+        db.update(SettingsTable.NAME, cv, SettingsTable.Cols.ID + " = ?", where);
+    }
+
+    public void storeDefaultSettings()
+    {
+        if(setCursor.getCount() == 0)
+        {
+            ContentValues cv = new ContentValues();
+            cv.put(SettingsTable.Cols.ID, 1);
+            cv.put(SettingsTable.Cols.MAP_HEIGHT, settings.getMapHeight());
+            cv.put(SettingsTable.Cols.MAP_WIDTH, settings.getMapWidth());
+            cv.put(SettingsTable.Cols.MONEY, settings.getInitialMoney());
+            db.insert(SettingsTable.NAME, null, cv);
+        }
+    }
+
+    public int getDBCount()
+    {
+        return setCursor.getCount();
     }
 }

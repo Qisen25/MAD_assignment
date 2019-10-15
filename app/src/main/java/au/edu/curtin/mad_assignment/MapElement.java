@@ -5,22 +5,13 @@ import android.graphics.Bitmap;
 public class MapElement
 {
     private boolean buildable;
-    private final int terrainNorthWest;
-    private final int terrainSouthWest;
-    private final int terrainNorthEast;
-    private final int terrainSouthEast;
     private Structure structure;
     private Bitmap image;
     private String ownerName;
 
-    public MapElement(boolean buildable, int northWest, int northEast,
-                      int southWest, int southEast, Structure structure)
+    public MapElement(boolean buildable, Structure structure)
     {
         this.buildable = buildable;
-        this.terrainNorthWest = northWest;
-        this.terrainNorthEast = northEast;
-        this.terrainSouthWest = southWest;
-        this.terrainSouthEast = southEast;
         this.structure = structure;
     }
 
@@ -31,22 +22,22 @@ public class MapElement
 
     public int getNorthWest()
     {
-        return terrainNorthWest;
+        return R.drawable.ic_grass1;
     }
 
     public int getSouthWest()
     {
-        return terrainSouthWest;
+        return R.drawable.ic_grass2;
     }
 
     public int getNorthEast()
     {
-        return terrainNorthEast;
+        return R.drawable.ic_grass3;
     }
 
     public int getSouthEast()
     {
-        return terrainSouthEast;
+        return R.drawable.ic_grass1;
     }
 
     public Bitmap getImage()

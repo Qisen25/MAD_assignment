@@ -11,17 +11,17 @@ import android.widget.ImageView;
 
 public class MapFragment extends Fragment
 {
-    private Settings settings;
     private GameData gameData;
     private MapAdapter adapter;
     private SelectorFragment selector;
+    private Settings settings;
 
     @Override
     public void onCreate(Bundle bundle)
     {
         super.onCreate(bundle);
-        settings = Settings.get();
         gameData = GameData.get();
+        settings = gameData.getSettings();
     }
 
     @Override

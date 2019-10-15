@@ -9,6 +9,7 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity
 {
     private Button startGame, settings;
+    private GameData gd;
 
     private static final int REQUEST_CODE_MAP = 1;
 
@@ -18,6 +19,9 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
+        gd = GameData.get();
+        gd.load(getApplicationContext());
+//        gd.storeDefaultSettings();
         setupButtons();
 
         startGame.setOnClickListener(new View.OnClickListener()
