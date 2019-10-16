@@ -22,8 +22,7 @@ public class SettingsActivity extends AppCompatActivity
         setContentView(R.layout.activity_settings);
 
         gd = GameData.get();
-        gd.load(getApplicationContext());
-        gd.storeDefaultSettings();
+//        gd.load(getApplicationContext());//do not load again or money will be set to 1000
 
         Settings settings = gd.getSettings();
 

@@ -20,8 +20,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_menu);
 
         gd = GameData.get();
-        gd.load(getApplicationContext());
-//        gd.storeDefaultSettings();
         setupButtons();
 
         startGame.setOnClickListener(new View.OnClickListener()
@@ -29,6 +27,8 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
+                gd.load(getApplicationContext(), true);//get database changes everytime, true coz at this point game has begun
+                gd.initGame();
                 Intent intent = new Intent(MainActivity.this, MapActivity.class);
                 startActivity(intent);
             }
@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
+                gd.load(getApplicationContext(), false);// set false coz we are not in game
                 Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(intent);
             }
