@@ -7,4 +7,16 @@ class Road extends Structure
     {
         super(imageId);
     }
+
+    @Override
+    public String getLabel()
+    {
+        return "Road";
+    }
+
+    @Override
+    public int getCost()
+    {
+        return GameData.get().getSettings().getRoadBuildingCost();
+    }
 }

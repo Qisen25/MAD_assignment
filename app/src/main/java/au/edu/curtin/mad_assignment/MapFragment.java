@@ -44,6 +44,7 @@ public class MapFragment extends Fragment
     {
         private ImageView img1, img2, img3, img4, img5;
         private MapElement currentPlace;
+        private MapActivity currActivity = (MapActivity) getActivity();
 
         public MapViewHolder(LayoutInflater li, ViewGroup parent)
         {
@@ -67,10 +68,12 @@ public class MapFragment extends Fragment
                 @Override
                 public void onClick(View v)
                 {
-                    if(currentPlace.isBuildable() && currentPlace.getStructure() == null)
+                    if(currentPlace.isBuildable() && currentPlace.getStructure() == null && selector.getSelected() != null)
                     {
                         currentPlace.setStructure(selector.getSelected());
                         adapter.notifyItemChanged(getAdapterPosition());
+                        gameData.addStructure(currentPlace);//put in database as soon structure binded
+                        currActivity.updateHud();
                     }
                 }
             });
@@ -85,6 +88,8 @@ public class MapFragment extends Fragment
                     {
                         currentPlace.setStructure(null);
                         adapter.notifyItemChanged(getAdapterPosition());
+                        gameData.removeStructure(currentPlace);
+                        currActivity.updateHud();
                     }
 
                     return true;

@@ -9,6 +9,7 @@ import java.util.List;
 
 import au.edu.curtin.mad_assignment.GameDataSchema.SettingsTable;
 import au.edu.curtin.mad_assignment.GameDataSchema.PlayerDataTable;
+import au.edu.curtin.mad_assignment.GameDataSchema.MapElementTable;
 
 public class GameData
 {
@@ -27,7 +28,6 @@ public class GameData
 
     public void load(Context context, boolean enterGame)
     {
-
         PlayerDataCursor playerCursor;
 
         this.db = new GameDataDbHelper(context.getApplicationContext()).getWritableDatabase();
@@ -57,9 +57,7 @@ public class GameData
         {
             for(int j = 0; j < width; j++)
             {
-                MapElement element;
-
-                grid[i][j] = new MapElement(true,null);
+                grid[i][j] = new MapElement(true,null, i, j);
             }
         }
         return grid;
@@ -125,6 +123,11 @@ public class GameData
         }
     }
 
+    public int getSize()
+    {
+        return this.mapDBList.size();
+    }
+
     public void reset()
     {
         this.settings = new Settings();
@@ -132,7 +135,7 @@ public class GameData
         this.money = settings.getInitialMoney();
         this.map = generateGrid(settings.getMapHeight(), settings.getMapWidth());
         editSetting(settings);
-        updateGameData();
+        updatePlayData();
     }
 
     public void editSetting(Settings sett)
@@ -159,7 +162,7 @@ public class GameData
         return this.setCursor.getCount() > 0;
     }
 
-    private void updateGameData()
+    private void updatePlayData()
     {
         ContentValues cv = new ContentValues();
         cv.put(PlayerDataTable.Cols.CURR_MONEY, this.money);
@@ -169,6 +172,59 @@ public class GameData
         String[] where = { "1" };
 
         db.update(PlayerDataTable.NAME, cv, PlayerDataTable.Cols.PLAYER_ID + " = ?", where);
+    }
+
+    protected void addStructure(MapElement ele)
+    {
+        this.mapDBList.add(ele);
+
+        ContentValues cv = new ContentValues();
+        cv.put(MapElementTable.Cols.ROW_ID, ele.getRow());
+        cv.put(MapElementTable.Cols.COL_ID, ele.getCol());
+        cv.put(MapElementTable.Cols.STRUCT_ID, ele.getStructure().getImageId());
+        cv.put(MapElementTable.Cols.STRUCT_TYPE, ele.getStructure().getLabel());
+        cv.put(MapElementTable.Cols.OWNER_NAME, ele.getOwnerName());
+        db.insert(MapElementTable.NAME, null, cv);
+
+        this.money -= ele.getStructure().getCost();
+        updatePlayData();
+    }
+
+    protected void removeStructure(MapElement ele)
+    {
+        this.mapDBList.remove(ele);
+//        this.map[ele.getRow()][ele.getCol()].setStructure(null);
+        String[] where = {String.valueOf(ele.getRow()), String.valueOf(ele.getCol())};
+        db.delete(MapElementTable.NAME, MapElementTable.Cols.ROW_ID + " = ? AND " + MapElementTable.Cols.COL_ID + " = ?", where);
+    }
+
+    protected void closeDB()
+    {
+        if(this.db != null)
+        {
+            db.close();
+        }
+    }
+
+    protected void endTurn()
+    {
+        int shopSize = this.settings.getShopSize();
+        int population = this.settings.getFamilySize() * this.nBuildings("house");
+        int nCommercial = this.nBuildings("commercial");
+        double employmentRate = 0.0;
+        int salary = this.settings.getSalary();
+        double taxRate = this.settings.getTaxRate();
+        int serviceCost = this.settings.getServiceCost();
+
+        if(population > 0)
+        {
+            employmentRate = Math.min(1.0,(double)(nCommercial * shopSize) / (double)(population));
+        }
+
+        this.gameTime++;
+        this.money += population * (employmentRate * salary * taxRate - serviceCost);
+
+        this.updatePlayData();
     }
 
     private void getDBSettings(SQLiteDatabase db)
@@ -216,12 +272,14 @@ public class GameData
     {
         MapElementCursor mapCursor = new MapElementCursor(db.query(GameDataSchema.MapElementTable.NAME, null, null, null,
                 null, null, null, null));
+        List<MapElement> temp = new ArrayList<>();
+
         try
         {
             mapCursor.moveToFirst();
             while(!mapCursor.isAfterLast())
             {
-                this.mapDBList.add(mapCursor.getStructures());
+                temp.add(mapCursor.getStructures());
                 mapCursor.moveToNext();
             }
         }
@@ -229,6 +287,8 @@ public class GameData
         {
             mapCursor.close();
         }
+
+        this.mapDBList = temp;
     }
 
     private void storeDefaultData(SettingsCursor setCursor, PlayerDataCursor playerDataCursor)
@@ -252,5 +312,29 @@ public class GameData
             cv.put(PlayerDataTable.Cols.GAME_TIME, 0);
             db.insert(PlayerDataTable.NAME, null, cv);
         }
+    }
+
+    private int nBuildings(String type)
+    {
+        int num = 0;
+
+        for(MapElement m : mapDBList)
+        {
+
+            if(m.getStructure() instanceof  Residential && type.equals("house"))
+            {
+                num++;
+            }
+            else if(m.getStructure() instanceof Commercial && type.equals("commercial"))
+            {
+                num++;
+            }
+            else if(m.getStructure() instanceof Road && type.equals("road"))
+            {
+                num++;
+            }
+        }
+
+        return num;
     }
 }

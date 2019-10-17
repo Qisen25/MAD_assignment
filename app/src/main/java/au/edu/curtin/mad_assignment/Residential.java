@@ -7,4 +7,16 @@ class Residential extends Structure
     {
         super(imageId);
     }
+
+    @Override
+    public String getLabel()
+    {
+        return "House";
+    }
+
+    @Override
+    public int getCost()
+    {
+        return GameData.get().getSettings().getHouseBuildingCost();
+    }
 }

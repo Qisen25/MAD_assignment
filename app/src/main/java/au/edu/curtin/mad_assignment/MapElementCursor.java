@@ -22,25 +22,19 @@ public class MapElementCursor extends CursorWrapper
         String type = getString(getColumnIndex(MapElementTable.Cols.STRUCT_TYPE));
         String owner = getString(getColumnIndex(MapElementTable.Cols.OWNER_NAME));
 
-        if(type.equals("residential"))
+        if(type.equals("House"))
         {
-            element = new MapElement(false, new Residential(structID));
-            element.setRow(row);
-            element.setCol(col);
+            element = new MapElement(false, new Residential(structID), row, col);
             element.setOwnerName(owner);
         }
-        else if(type.equals("commercial"))
+        else if(type.equals("Commercial"))
         {
-            element = new MapElement(false, new Commercial(structID));
-            element.setRow(row);
-            element.setCol(col);
+            element = new MapElement(false, new Commercial(structID), row, col);
             element.setOwnerName(owner);
         }
-        else if(type.equals("road"))
+        else if(type.equals("Road"))
         {
-            element = new MapElement(false, new Road(structID));
-            element.setRow(row);
-            element.setCol(col);
+            element = new MapElement(false, new Road(structID), row, col);
             element.setOwnerName(owner);
         }
 

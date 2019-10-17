@@ -72,7 +72,7 @@ public class SelectorFragment extends Fragment
         {
             bindData = struct;
             structs.setImageResource(struct.getImageId());
-//            desc.setText(struct.getLabel());
+            desc.setText(struct.getLabel());
         }
     }
 

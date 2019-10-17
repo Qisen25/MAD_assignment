@@ -11,7 +11,8 @@ public class MainActivity extends AppCompatActivity
     private Button startGame, settings;
     private GameData gd;
 
-    private static final int REQUEST_CODE_MAP = 1;
+    private static final int REQUEST_CODE_GAME = 0;
+    private static final int REQUEST_CODE_SETTINGS = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity
                 gd.load(getApplicationContext(), true);//get database changes everytime, true coz at this point game has begun
                 gd.initGame();
                 Intent intent = new Intent(MainActivity.this, MapActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_CODE_GAME);
             }
         });
 
@@ -41,9 +42,18 @@ public class MainActivity extends AppCompatActivity
             {
                 gd.load(getApplicationContext(), false);// set false coz we are not in game
                 Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_CODE_SETTINGS);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent)
+    {
+        if(resultCode == RESULT_OK && (requestCode == REQUEST_CODE_GAME || requestCode == REQUEST_CODE_SETTINGS))
+        {
+            gd.closeDB();
+        }
     }
 
     private void setupButtons()

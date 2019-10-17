@@ -6,4 +6,16 @@ class Commercial extends Structure
     {
         super(imageId);
     }
+
+    @Override
+    public String getLabel()
+    {
+        return "Commercial";
+    }
+
+    @Override
+    public int getCost()
+    {
+        return GameData.get().getSettings().getCommBuildingCost();
+    }
 }

@@ -11,12 +11,12 @@ public class MapElement
     private int row;
     private int col;
 
-    public MapElement(boolean buildable, Structure structure)
+    public MapElement(boolean buildable, Structure structure, int row, int col)
     {
         this.buildable = buildable;
         this.structure = structure;
-        this.row = 0;
-        this.col = 0;
+        this.row = row;
+        this.col = col;
     }
 
     public boolean isBuildable()

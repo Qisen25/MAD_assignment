@@ -1,5 +1,7 @@
 package au.edu.curtin.mad_assignment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +12,7 @@ import android.widget.TextView;
 
 public class MapActivity extends AppCompatActivity {
 
-    private Button reset;
+    private Button endTurn;
     private MapFragment mapFrag;
     private SelectorFragment selFrag;
     private TextView money, gameTime;
@@ -40,19 +42,35 @@ public class MapActivity extends AppCompatActivity {
             fm.beginTransaction().add(R.id.map, mapFrag).commit();
         }
 
-        money.setText("Money: " + GameData.get().getMoney());
-        gameTime.setText("Time: " + GameData.get().getGameTime());
+        updateHud();
 
-        reset = (Button)findViewById(R.id.reset);
+        endTurn = (Button)findViewById(R.id.endTurn);
 
-        reset.setOnClickListener(new View.OnClickListener()
+        endTurn.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                mapFrag.resetMap();
+                GameData.get().endTurn();
+                updateHud();
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        Intent returnIntent = new Intent();
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
+        super.onBackPressed();
+    }
+
+    public void updateHud()
+    {
+        money.setText("Money: " + GameData.get().getMoney());
+        gameTime.setText("Time: " + GameData.get().getGameTime());
+//        gameTime.setText("Time: " + GameData.get().getSize());
     }
 }

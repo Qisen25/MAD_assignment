@@ -28,10 +28,10 @@
         />
 
     <Button
-        android:id="@+id/reset"
+        android:id="@+id/endTurn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="RESET"
+        android:text="END TURN"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -53,7 +53,7 @@
         android:text="time: 0.0"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintLeft_toRightOf="@id/cash"
-        app:layout_constraintRight_toLeftOf="@id/reset"
+        app:layout_constraintRight_toLeftOf="@id/endTurn"
         app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
