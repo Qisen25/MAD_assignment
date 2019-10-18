@@ -20,6 +20,8 @@ public class GameData
     private Settings settings;
     private int money;
     private int gameTime;
+    private int population, recentIncome;
+    private double employmentRate;
 
     private SQLiteDatabase db;
     private List<MapElement> mapDBList;
@@ -111,6 +113,21 @@ public class GameData
         this.mapDBList = mapDBList;
     }
 
+    public int getPopulation()
+    {
+        return population;
+    }
+
+    public int getRecentIncome()
+    {
+        return recentIncome;
+    }
+
+    public double getEmploymentRate()
+    {
+        return employmentRate;
+    }
+
     public void initGame()
     {
         this.map = generateGrid(settings.getMapHeight(), settings.getMapWidth());
@@ -174,6 +191,7 @@ public class GameData
         db.update(PlayerDataTable.NAME, cv, PlayerDataTable.Cols.PLAYER_ID + " = ?", where);
     }
 
+    //adding structures to game data
     protected void addStructure(MapElement ele)
     {
         this.mapDBList.add(ele);
@@ -182,7 +200,7 @@ public class GameData
         cv.put(MapElementTable.Cols.ROW_ID, ele.getRow());
         cv.put(MapElementTable.Cols.COL_ID, ele.getCol());
         cv.put(MapElementTable.Cols.STRUCT_ID, ele.getStructure().getImageId());
-        cv.put(MapElementTable.Cols.STRUCT_TYPE, ele.getStructure().getLabel());
+        cv.put(MapElementTable.Cols.STRUCT_TYPE, ele.getStructure().getType());
         cv.put(MapElementTable.Cols.OWNER_NAME, ele.getOwnerName());
         db.insert(MapElementTable.NAME, null, cv);
 
@@ -190,10 +208,22 @@ public class GameData
         updatePlayData();
     }
 
+    //update map element ownernames
+    protected void updateStructureName(MapElement ele)
+    {
+        ContentValues cv = new ContentValues();
+        cv.put(MapElementTable.Cols.OWNER_NAME, ele.getOwnerName());
+
+        String[] where = {String.valueOf(ele.getRow()), String.valueOf(ele.getCol())};
+
+        db.update(MapElementTable.NAME, cv, MapElementTable.Cols.ROW_ID + " = ? AND " + MapElementTable.Cols.COL_ID + " = ?", where);
+    }
+
+    //remove structure
     protected void removeStructure(MapElement ele)
     {
         this.mapDBList.remove(ele);
-//        this.map[ele.getRow()][ele.getCol()].setStructure(null);
+
         String[] where = {String.valueOf(ele.getRow()), String.valueOf(ele.getCol())};
         db.delete(MapElementTable.NAME, MapElementTable.Cols.ROW_ID + " = ? AND " + MapElementTable.Cols.COL_ID + " = ?", where);
     }
@@ -206,23 +236,25 @@ public class GameData
         }
     }
 
+    //increase game time logic
     protected void endTurn()
     {
         int shopSize = this.settings.getShopSize();
-        int population = this.settings.getFamilySize() * this.nBuildings("house");
+        this.population = this.settings.getFamilySize() * this.nBuildings("house");
         int nCommercial = this.nBuildings("commercial");
-        double employmentRate = 0.0;
+        this.employmentRate = 0.0;
         int salary = this.settings.getSalary();
         double taxRate = this.settings.getTaxRate();
         int serviceCost = this.settings.getServiceCost();
 
         if(population > 0)
         {
-            employmentRate = Math.min(1.0,(double)(nCommercial * shopSize) / (double)(population));
+            this.employmentRate = Math.min(1.0,(double)(nCommercial * shopSize) / (double)(population));
         }
 
         this.gameTime++;
-        this.money += population * (employmentRate * salary * taxRate - serviceCost);
+        this.recentIncome = (int)(population * (employmentRate * salary * taxRate - serviceCost));
+        this.money += this.recentIncome;
 
         this.updatePlayData();
     }

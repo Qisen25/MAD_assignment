@@ -50,6 +50,7 @@ public class StructureData
                             new Road(R.drawable.ic_road_n), new Road(R.drawable.ic_road_e), new Road(R.drawable.ic_road_s), new Road(R.drawable.ic_road_w),
                             new Road(R.drawable.ic_road_nse), new Road(R.drawable.ic_road_nsw), new Road(R.drawable.ic_road_new), new Road(R.drawable.ic_road_sew)};
 
+        structureList.add(null);//this adds none to list, to allow user to not build when clicking on screen if they want
         arrayToList(residential);
         arrayToList(commercial);
         arrayToList(roads);

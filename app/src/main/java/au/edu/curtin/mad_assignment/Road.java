@@ -9,7 +9,7 @@ class Road extends Structure
     }
 
     @Override
-    public String getLabel()
+    public String getType()
     {
         return "Road";
     }

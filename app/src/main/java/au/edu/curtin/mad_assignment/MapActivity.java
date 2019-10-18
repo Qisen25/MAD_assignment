@@ -15,7 +15,7 @@ public class MapActivity extends AppCompatActivity {
     private Button endTurn;
     private MapFragment mapFrag;
     private SelectorFragment selFrag;
-    private TextView money, gameTime;
+    private TextView money, gameTime, recentIncome, employment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +24,8 @@ public class MapActivity extends AppCompatActivity {
 
         money = (TextView) findViewById(R.id.cash);
         gameTime = (TextView) findViewById(R.id.gameTime);
+        recentIncome = (TextView) findViewById(R.id.income);
+        employment = (TextView) findViewById(R.id.employment);
 
         FragmentManager fm = getSupportFragmentManager();
         mapFrag = (MapFragment)fm.findFragmentById(R.id.map);
@@ -61,16 +63,24 @@ public class MapActivity extends AppCompatActivity {
     @Override
     public void onBackPressed()
     {
-        Intent returnIntent = new Intent();
-        setResult(Activity.RESULT_OK, returnIntent);
-        finish();
-        super.onBackPressed();
+        if(getSupportFragmentManager().getBackStackEntryCount() == 0)
+        {
+            Intent returnIntent = new Intent();
+            setResult(Activity.RESULT_OK, returnIntent);
+            finish();
+            super.onBackPressed();
+        }
+        else
+        {
+            getSupportFragmentManager().popBackStack();
+        }
     }
 
     public void updateHud()
     {
         money.setText("Money: " + GameData.get().getMoney());
         gameTime.setText("Time: " + GameData.get().getGameTime());
-//        gameTime.setText("Time: " + GameData.get().getSize());
+        recentIncome.setText("Income: " + GameData.get().getRecentIncome());
+        employment.setText("Emploment rate: " + GameData.get().getEmploymentRate() + "%");
     }
 }

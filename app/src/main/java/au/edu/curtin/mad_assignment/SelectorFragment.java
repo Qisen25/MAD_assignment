@@ -60,7 +60,7 @@ public class SelectorFragment extends Fragment
 
 //                    int duration = Toast.LENGTH_SHORT;
 //
-//                    Toast toast = Toast.makeText(getActivity().getApplicationContext(), current.getLabel() + " selected", duration);
+//                    Toast toast = Toast.makeText(getActivity().getApplicationContext(), current.getType() + " selected", duration);
 //
 //                    toast.show();
                 }
@@ -71,8 +71,15 @@ public class SelectorFragment extends Fragment
         public void bind(Structure struct)
         {
             bindData = struct;
-            structs.setImageResource(struct.getImageId());
-            desc.setText(struct.getLabel());
+            if(struct != null)
+            {
+                structs.setImageResource(struct.getImageId());
+                desc.setText(struct.getType());
+            }
+            else
+            {
+                desc.setText("NO BUILD");
+            }
         }
     }
 

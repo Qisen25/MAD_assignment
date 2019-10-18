@@ -9,9 +9,9 @@ class Residential extends Structure
     }
 
     @Override
-    public String getLabel()
+    public String getType()
     {
-        return "House";
+        return "Residential";
     }
 
     @Override

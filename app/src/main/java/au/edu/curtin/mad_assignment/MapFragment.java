@@ -2,6 +2,8 @@ package au.edu.curtin.mad_assignment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -75,6 +77,18 @@ public class MapFragment extends Fragment
                         gameData.addStructure(currentPlace);//put in database as soon structure binded
                         currActivity.updateHud();
                     }
+                    else if(currentPlace.getStructure() != null)
+                    {
+                        DetailFragment df = new DetailFragment();
+                        df.setCurrElement(currentPlace);
+                        FragmentManager fm = getFragmentManager();
+                        FragmentTransaction ft = fm.beginTransaction();
+                        ft.replace(R.id.map, df);
+                        ft.addToBackStack(null);
+                        ft.hide(fm.findFragmentById(R.id.selector));
+
+                        ft.commit();
+                    }
                 }
             });
 
@@ -87,6 +101,7 @@ public class MapFragment extends Fragment
                     if(currentPlace.getStructure() != null)
                     {
                         currentPlace.setStructure(null);
+                        currentPlace.setBuildable(true);
                         adapter.notifyItemChanged(getAdapterPosition());
                         gameData.removeStructure(currentPlace);
                         currActivity.updateHud();
@@ -95,7 +110,6 @@ public class MapFragment extends Fragment
                     return true;
                 }
             });
-
         }
 
         public void bind(MapElement element)

@@ -17,6 +17,6 @@ public abstract class Structure
         return imageId;
     }
 
-    public abstract String getLabel();
+    public abstract String getType();
     public abstract int getCost();
 }

@@ -84,6 +84,11 @@ public class MapElement
         this.col = col;
     }
 
+    public void setBuildable(boolean buildable)
+    {
+        this.buildable = buildable;
+    }
+
     /**
      * Retrieves the structure built on this map element.
      * @return The structure, or null if one is not present.
