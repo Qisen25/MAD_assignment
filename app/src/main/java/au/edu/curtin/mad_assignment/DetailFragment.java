@@ -13,7 +13,9 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+/*
+    fragment that handles map elements details screen
+ */
 public class DetailFragment extends Fragment
 {
     private MapElement currElement;
@@ -44,7 +46,7 @@ public class DetailFragment extends Fragment
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
 
-        setupView(view);
+        this.setupView(view);
 
         return view;
     }
@@ -59,6 +61,7 @@ public class DetailFragment extends Fragment
         this.currElement = currElement;
     }
 
+    //handle all view setting
     private void setupView(View view)
     {
         this.row = (TextView) view.findViewById(R.id.detailRow);
@@ -85,7 +88,7 @@ public class DetailFragment extends Fragment
             public void afterTextChanged(Editable editable)
             {
                 currElement.setOwnerName(ownName.getText().toString());
-                GameData.get().updateStructureName(currElement);
+                GameData.get().updateMapElement(currElement);
             }
         };
 
@@ -95,21 +98,23 @@ public class DetailFragment extends Fragment
 
         this.structTitle.setText(currElement.getStructure().getType());
 
-        ownName.addTextChangedListener(tw);
+        ownName.addTextChangedListener(tw);//listen to changes in edit tex
         if(currElement.getOwnerName() != null)
         {
             ownName.setText(currElement.getOwnerName());
         }
-        else
+        else//use structure type as default name
         {
             ownName.setText(currElement.getStructure().getType());
         }
 
+        //display if img available
         if(currElement.getImage() != null)
         {
             image.setImageBitmap(currElement.getImage());
         }
 
+        //set photo
         image.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -122,6 +127,7 @@ public class DetailFragment extends Fragment
 
     }
 
+    //when camera activity is finished, retrieve photo and set the image view
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent resultIntent)
     {
@@ -131,6 +137,7 @@ public class DetailFragment extends Fragment
 
             image.setImageBitmap(photo);
             this.currElement.setImage(photo);
+            GameData.get().updateMapElement(this.currElement);//add img to database
         }
     }
 }

@@ -12,6 +12,7 @@ import java.util.List;
  *
  * There is a static int array called DRAWABLES, which stores all the drawable integer references,
  * some of which are not actually used (yet) in a Structure object.
+ * REFERENCE: MAD prac3 resource. slightly modified
  */
 public class StructureData
 {

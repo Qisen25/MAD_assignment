@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/*
+    fragment that handles structure selection
+ */
 public class SelectorFragment extends Fragment
 {
     private StructureData structures;
@@ -57,12 +60,6 @@ public class SelectorFragment extends Fragment
                 public void onClick(View v)
                 {
                     current = bindData;
-
-//                    int duration = Toast.LENGTH_SHORT;
-//
-//                    Toast toast = Toast.makeText(getActivity().getApplicationContext(), current.getType() + " selected", duration);
-//
-//                    toast.show();
                 }
             });
         }
@@ -78,7 +75,7 @@ public class SelectorFragment extends Fragment
             }
             else
             {
-                desc.setText("NO BUILD");
+                desc.setText("NO BUILD");//null structure in structure list represents no build option
             }
         }
     }

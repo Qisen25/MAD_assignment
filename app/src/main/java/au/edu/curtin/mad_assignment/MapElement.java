@@ -1,7 +1,10 @@
 package au.edu.curtin.mad_assignment;
 
 import android.graphics.Bitmap;
-
+/*
+    Map element model class
+    REFERENCE: MAD prac3, slightly modified
+ */
 public class MapElement
 {
     private boolean buildable;
@@ -11,12 +14,13 @@ public class MapElement
     private int row;
     private int col;
 
-    public MapElement(boolean buildable, Structure structure, int row, int col)
+    public MapElement(boolean buildable, Structure structure, int row, int col, Bitmap photo)
     {
         this.buildable = buildable;
         this.structure = structure;
         this.row = row;
         this.col = col;
+        this.image = photo;
     }
 
     public boolean isBuildable()

@@ -23,23 +23,28 @@ public class GameDataDbHelper extends SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase db)
     {
+        //settings
         db.execSQL("CREATE TABLE " + SettingsTable.NAME + "(" +
                 SettingsTable.Cols.ID + " INTEGER, " +
                 SettingsTable.Cols.MAP_HEIGHT + " INTEGER, " +
                 SettingsTable.Cols.MAP_WIDTH + " INTEGER, " +
+                SettingsTable.Cols.TAX + " REAL, " +
                 SettingsTable.Cols.MONEY + " INTEGER)");
 
+        //player data
         db.execSQL("CREATE TABLE " + PlayerDataTable.NAME + "(" +
                 PlayerDataTable.Cols.PLAYER_ID + " INTEGER, " +
                 PlayerDataTable.Cols.CURR_MONEY + " INTEGER, " +
                 PlayerDataTable.Cols.GAME_TIME + " INTEGER)");
 
+        //map element table
         db.execSQL("CREATE TABLE " + MapElementTable.NAME + "(" +
                 MapElementTable.Cols.ROW_ID + " INTEGER, " +
                 MapElementTable.Cols.COL_ID + " INTEGER, " +
                 MapElementTable.Cols.STRUCT_ID + " INTEGER, " +
                 MapElementTable.Cols.STRUCT_TYPE + " TEXT, " +
-                MapElementTable.Cols.OWNER_NAME + " TEXT)");
+                MapElementTable.Cols.OWNER_NAME + " TEXT, " +
+                MapElementTable.Cols.PHOTO + " BLOB)");
     }
 
     @Override

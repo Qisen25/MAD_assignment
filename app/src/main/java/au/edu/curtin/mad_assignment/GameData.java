@@ -3,14 +3,18 @@ package au.edu.curtin.mad_assignment;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import au.edu.curtin.mad_assignment.GameDataSchema.SettingsTable;
 import au.edu.curtin.mad_assignment.GameDataSchema.PlayerDataTable;
 import au.edu.curtin.mad_assignment.GameDataSchema.MapElementTable;
-
+/*
+    class handling the games data
+ */
 public class GameData
 {
     private static GameData instance = null;
@@ -26,7 +30,7 @@ public class GameData
     private SQLiteDatabase db;
     private List<MapElement> mapDBList;
     private SettingsCursor setCursor;
-
+    private boolean gameOver = false;
 
     public void load(Context context, boolean enterGame)
     {
@@ -37,7 +41,7 @@ public class GameData
         playerCursor = getDBPlayerData(db);
         getDBstructures(db);
 
-        if(enterGame)
+        if(enterGame)// store defaults if begin button is pressed in mainactivity
         {
             storeDefaultData(setCursor, playerCursor);//store defaults if tables not created yet
         }
@@ -52,6 +56,9 @@ public class GameData
         return instance;
     }
 
+    /*
+        create grid
+     */
     private MapElement[][] generateGrid(int height, int width)
     {
         MapElement[][] grid = new MapElement[height][width];
@@ -59,7 +66,7 @@ public class GameData
         {
             for(int j = 0; j < width; j++)
             {
-                grid[i][j] = new MapElement(true,null, i, j);
+                grid[i][j] = new MapElement(true,null, i, j, null);
             }
         }
         return grid;
@@ -125,9 +132,27 @@ public class GameData
 
     public double getEmploymentRate()
     {
-        return employmentRate;
+        return this.employmentRate;
     }
 
+    //get percentage of emploment rate to 2 decimal place
+    public String getEmployPercent()
+    {
+        return String.format("%.2f", (this.employmentRate * 100));
+    }
+
+    //check if game over condition is met
+    public boolean isGameOver()
+    {
+        return gameOver;
+    }
+
+    public void setGameOver(boolean gameOver)
+    {
+        this.gameOver = gameOver;
+    }
+
+    //initialise map and player stats
     public void initGame()
     {
         this.map = generateGrid(settings.getMapHeight(), settings.getMapWidth());
@@ -138,6 +163,7 @@ public class GameData
                 map[ele.getRow()][ele.getCol()] = ele;//
             }
         }
+        this.recentIncome = this.gameLogic();
     }
 
     public int getSize()
@@ -145,6 +171,7 @@ public class GameData
         return this.mapDBList.size();
     }
 
+    //to reset game, currently not used by game
     public void reset()
     {
         this.settings = new Settings();
@@ -155,6 +182,7 @@ public class GameData
         updatePlayData();
     }
 
+    //edit settings
     public void editSetting(Settings sett)
     {
         if(!hasBegun())//edit only if game hasn't started yet
@@ -162,6 +190,7 @@ public class GameData
             ContentValues cv = new ContentValues();
             cv.put(SettingsTable.Cols.MAP_HEIGHT, sett.getMapHeight());
             cv.put(SettingsTable.Cols.MAP_WIDTH, sett.getMapWidth());
+            cv.put(SettingsTable.Cols.TAX, sett.getTaxRate());
             cv.put(SettingsTable.Cols.MONEY, sett.getInitialMoney());
 
             String[] where = { "1" };
@@ -169,7 +198,16 @@ public class GameData
             db.update(SettingsTable.NAME, cv, SettingsTable.Cols.ID + " = ?", where);
             this.settings = sett;
             this.money = settings.getInitialMoney();
-//        this.map = generateGrid(settings.getMapHeight(), settings.getMapWidth());
+        }
+        else//editable settings after start
+        {
+            ContentValues cv = new ContentValues();
+            cv.put(SettingsTable.Cols.TAX, sett.getTaxRate());
+
+            String[] where = { "1" };
+
+            db.update(SettingsTable.NAME, cv, SettingsTable.Cols.ID + " = ?", where);
+            this.settings.setTaxRate(sett.getTaxRate());//update tax rate
         }
     }
 
@@ -179,6 +217,7 @@ public class GameData
         return this.setCursor.getCount() > 0;
     }
 
+    //update database player stats
     private void updatePlayData()
     {
         ContentValues cv = new ContentValues();
@@ -204,15 +243,16 @@ public class GameData
         cv.put(MapElementTable.Cols.OWNER_NAME, ele.getOwnerName());
         db.insert(MapElementTable.NAME, null, cv);
 
-        this.money -= ele.getStructure().getCost();
+        this.money -= ele.getStructure().getCost();//decrease money when building
         updatePlayData();
     }
 
-    //update map element ownernames
-    protected void updateStructureName(MapElement ele)
+    //update map element ownernames and images
+    protected void updateMapElement(MapElement ele)
     {
         ContentValues cv = new ContentValues();
         cv.put(MapElementTable.Cols.OWNER_NAME, ele.getOwnerName());
+        cv.put(MapElementTable.Cols.PHOTO, this.convertToByte(ele.getImage()));
 
         String[] where = {String.valueOf(ele.getRow()), String.valueOf(ele.getCol())};
 
@@ -228,6 +268,7 @@ public class GameData
         db.delete(MapElementTable.NAME, MapElementTable.Cols.ROW_ID + " = ? AND " + MapElementTable.Cols.COL_ID + " = ?", where);
     }
 
+    //close database to prevent errors when not using
     protected void closeDB()
     {
         if(this.db != null)
@@ -239,6 +280,16 @@ public class GameData
     //increase game time logic
     protected void endTurn()
     {
+        this.gameTime++;
+        this.recentIncome = this.gameLogic();
+        this.money += this.recentIncome;
+
+        this.updatePlayData();
+    }
+
+    //function calculates current income based on current city/game setup
+    protected int gameLogic()
+    {
         int shopSize = this.settings.getShopSize();
         this.population = this.settings.getFamilySize() * this.nBuildings("house");
         int nCommercial = this.nBuildings("commercial");
@@ -247,18 +298,15 @@ public class GameData
         double taxRate = this.settings.getTaxRate();
         int serviceCost = this.settings.getServiceCost();
 
-        if(population > 0)
+        if(population > 0)//make population greater than 0 to avoid divide by zero
         {
             this.employmentRate = Math.min(1.0,(double)(nCommercial * shopSize) / (double)(population));
         }
 
-        this.gameTime++;
-        this.recentIncome = (int)(population * (employmentRate * salary * taxRate - serviceCost));
-        this.money += this.recentIncome;
-
-        this.updatePlayData();
+        return (int)(population * (employmentRate * salary * taxRate - serviceCost));
     }
 
+    //get saved settings
     private void getDBSettings(SQLiteDatabase db)
     {
         this.setCursor = new SettingsCursor(db.query(SettingsTable.NAME, null, null, null,
@@ -278,6 +326,7 @@ public class GameData
         }
     }
 
+    //get saved player stats
     private PlayerDataCursor getDBPlayerData(SQLiteDatabase db)
     {
         PlayerDataCursor playerCursor = new PlayerDataCursor(db.query(PlayerDataTable.NAME, null, null, null,
@@ -300,6 +349,7 @@ public class GameData
         return playerCursor;
     }
 
+    //retrieving structures existing in database
     private void getDBstructures(SQLiteDatabase db)
     {
         MapElementCursor mapCursor = new MapElementCursor(db.query(GameDataSchema.MapElementTable.NAME, null, null, null,
@@ -323,19 +373,23 @@ public class GameData
         this.mapDBList = temp;
     }
 
+    //function to store default when player has newly started
     private void storeDefaultData(SettingsCursor setCursor, PlayerDataCursor playerDataCursor)
     {
         //only create defaults in databases are empty
+        //default settings
         if(setCursor.getCount() == 0)
         {
             ContentValues cv = new ContentValues();
             cv.put(SettingsTable.Cols.ID, 1);
             cv.put(SettingsTable.Cols.MAP_HEIGHT, settings.getMapHeight());
             cv.put(SettingsTable.Cols.MAP_WIDTH, settings.getMapWidth());
+            cv.put(SettingsTable.Cols.TAX, settings.getTaxRate());
             cv.put(SettingsTable.Cols.MONEY, settings.getInitialMoney());
             db.insert(SettingsTable.NAME, null, cv);
         }
 
+        //player starting stats
         if(playerDataCursor.getCount() == 0)
         {
             ContentValues cv = new ContentValues();
@@ -346,6 +400,7 @@ public class GameData
         }
     }
 
+    //get number of types of existing buildings
     private int nBuildings(String type)
     {
         int num = 0;
@@ -368,5 +423,23 @@ public class GameData
         }
 
         return num;
+    }
+
+    /*
+        function to convert bitmap to byte array, needed in order
+        to store bitmap in database
+     */
+    private byte[] convertToByte(Bitmap bm)
+    {
+        if(bm != null)
+        {
+            ByteArrayOutputStream bout = new ByteArrayOutputStream();
+            bm.compress(Bitmap.CompressFormat.JPEG, 100, bout);
+            return bout.toByteArray();
+        }
+        else
+        {
+            return null;
+        }
     }
 }

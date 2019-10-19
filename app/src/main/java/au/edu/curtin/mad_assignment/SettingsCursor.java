@@ -17,7 +17,8 @@ public class SettingsCursor extends CursorWrapper
         int height = getInt(getColumnIndex(SettingsTable.Cols.MAP_HEIGHT));
         int width = getInt(getColumnIndex(SettingsTable.Cols.MAP_WIDTH));
         int money = getInt(getColumnIndex(SettingsTable.Cols.MONEY));
+        double tax = getDouble(getColumnIndex(SettingsTable.Cols.TAX));
 
-        return new Settings(width, height, money);
+        return new Settings(width, height, money, tax);
     }
 }

@@ -5,6 +5,9 @@ import android.database.CursorWrapper;
 
 import au.edu.curtin.mad_assignment.GameDataSchema.SettingsTable;
 
+/*
+    cursor retrieve game time and the money player currently has
+ */
 public class PlayerDataCursor extends CursorWrapper
 {
     public PlayerDataCursor(Cursor cursor)

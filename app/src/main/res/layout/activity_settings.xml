@@ -34,7 +34,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="5dp"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:inputType="number"
         app:layout_constraintLeft_toRightOf="@id/mapIdH"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/settingsTitle" />
@@ -57,7 +57,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginRight="10dp"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:inputType="number"
         app:layout_constraintLeft_toRightOf="@id/mapIdW"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/heightInput" />
@@ -77,12 +77,34 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:inputType="number"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="20dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toRightOf="@id/money"
         app:layout_constraintTop_toBottomOf="@id/widthInput" />
+
+    <TextView
+        android:id="@+id/tax"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tax rate"
+        android:layout_margin="30dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/taxInput"
+        app:layout_constraintTop_toBottomOf="@id/money" />
+
+    <EditText
+        android:id="@+id/taxInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="50dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/money"
+        app:layout_constraintTop_toBottomOf="@id/moneyInput" />
 
     <Button
         android:id="@+id/saveButton"

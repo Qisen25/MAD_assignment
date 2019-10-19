@@ -8,8 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
-
+/*
+    activity handling the game screen
+ */
 public class MapActivity extends AppCompatActivity {
 
     private Button endTurn;
@@ -48,6 +51,7 @@ public class MapActivity extends AppCompatActivity {
 
         endTurn = (Button)findViewById(R.id.endTurn);
 
+        //button to increment game time
         endTurn.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -55,14 +59,23 @@ public class MapActivity extends AppCompatActivity {
             {
                 GameData.get().endTurn();
                 updateHud();
+                if(GameData.get().getMoney() < 0 && !GameData.get().isGameOver())
+                {
+                    Toast toast = Toast.makeText(getApplicationContext(), "GAME OVER", Toast.LENGTH_SHORT * 2);
+                    toast.show();
+                    GameData.get().setGameOver(true);
+                }
+
             }
         });
 
     }
 
+    //android back button logic
     @Override
     public void onBackPressed()
     {
+        //if there are no fragments on the back stack, can return to main menu
         if(getSupportFragmentManager().getBackStackEntryCount() == 0)
         {
             Intent returnIntent = new Intent();
@@ -70,17 +83,18 @@ public class MapActivity extends AppCompatActivity {
             finish();
             super.onBackPressed();
         }
-        else
+        else//otherwise go back to previous fragments
         {
             getSupportFragmentManager().popBackStack();
         }
     }
 
+    //update player displayed stats
     public void updateHud()
     {
         money.setText("Money: " + GameData.get().getMoney());
         gameTime.setText("Time: " + GameData.get().getGameTime());
         recentIncome.setText("Income: " + GameData.get().getRecentIncome());
-        employment.setText("Emploment rate: " + GameData.get().getEmploymentRate() + "%");
+        employment.setText("Emploment rate: " + GameData.get().getEmployPercent() + "%");
     }
 }

@@ -11,6 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+/*
+    fragment that handles the map of the game screen
+ */
 public class MapFragment extends Fragment
 {
     private GameData gameData;
@@ -75,17 +78,17 @@ public class MapFragment extends Fragment
                         currentPlace.setStructure(selector.getSelected());
                         adapter.notifyItemChanged(getAdapterPosition());
                         gameData.addStructure(currentPlace);//put in database as soon structure binded
-                        currActivity.updateHud();
+                        currActivity.updateHud();//update the player stats
                     }
-                    else if(currentPlace.getStructure() != null)
+                    else if(currentPlace.getStructure() != null)// if there is a structure show the details screen
                     {
                         DetailFragment df = new DetailFragment();
-                        df.setCurrElement(currentPlace);
+                        df.setCurrElement(currentPlace);//send current map element to detail fragment
                         FragmentManager fm = getFragmentManager();
                         FragmentTransaction ft = fm.beginTransaction();
-                        ft.replace(R.id.map, df);
-                        ft.addToBackStack(null);
-                        ft.hide(fm.findFragmentById(R.id.selector));
+                        ft.replace(R.id.map, df);//replace the map fragment temporarily
+                        ft.addToBackStack(null);//put the map fragment on stack
+                        ft.hide(fm.findFragmentById(R.id.selector));//hide the selector fragment temporarily
 
                         ft.commit();
                     }
@@ -100,7 +103,7 @@ public class MapFragment extends Fragment
                 {
                     if(currentPlace.getStructure() != null)
                     {
-                        currentPlace.setStructure(null);
+                        currentPlace.setStructure(null);//remove structure
                         currentPlace.setBuildable(true);
                         adapter.notifyItemChanged(getAdapterPosition());
                         gameData.removeStructure(currentPlace);
@@ -155,11 +158,13 @@ public class MapFragment extends Fragment
         }
     }
 
+    //setter to allow fragment communication
     public void setSelector(SelectorFragment sel)
     {
         this.selector = sel;
     }
 
+    //reset the game, currently not used in game
     public void resetMap()
     {
         gameData.reset();

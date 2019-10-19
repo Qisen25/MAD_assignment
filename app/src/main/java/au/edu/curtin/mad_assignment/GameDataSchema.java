@@ -1,5 +1,8 @@
 package au.edu.curtin.mad_assignment;
 
+/*
+    model class for database table data
+ */
 public class GameDataSchema
 {
     public static class SettingsTable
@@ -10,6 +13,7 @@ public class GameDataSchema
             public static final String ID = "setting_id";
             public static final String MAP_HEIGHT = "height";
             public static final String MAP_WIDTH = "width";
+            public static final String TAX = "tax";
             public static final String MONEY = "money";
         }
     }
@@ -35,6 +39,7 @@ public class GameDataSchema
             public static final String STRUCT_ID = "struct_id";
             public static final String STRUCT_TYPE = "struct_type";
             public static final String OWNER_NAME = "owner_name";
+            public static final String PHOTO = "photo";
         }
     }
 }

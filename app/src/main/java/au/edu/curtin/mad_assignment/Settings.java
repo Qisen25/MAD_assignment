@@ -1,6 +1,8 @@
 package au.edu.curtin.mad_assignment;
 
-
+/*
+    setting model class
+ */
 public class Settings
 {
     private int mapWidth;
@@ -30,7 +32,7 @@ public class Settings
         roadBuildingCost = 20;
     }
 
-    public Settings(int width, int height, int money)
+    public Settings(int width, int height, int money, double taxRate)
     {
         this.mapWidth = width;
         this.mapHeight = height;
@@ -38,7 +40,7 @@ public class Settings
         this.familySize = 4;
         this.shopSize = 6;
         this.salary = 10;
-        this.taxRate = 0.3;
+        this.taxRate = taxRate;
         this.serviceCost = 2;
         this.houseBuildingCost = 100;
         this.commBuildingCost = 500;
