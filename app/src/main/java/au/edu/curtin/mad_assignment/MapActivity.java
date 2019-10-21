@@ -18,7 +18,7 @@ public class MapActivity extends AppCompatActivity {
     private Button endTurn;
     private MapFragment mapFrag;
     private SelectorFragment selFrag;
-    private TextView money, gameTime, recentIncome, employment;
+    private TextView money, gameTime, recentIncome, employment, population;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +29,7 @@ public class MapActivity extends AppCompatActivity {
         gameTime = (TextView) findViewById(R.id.gameTime);
         recentIncome = (TextView) findViewById(R.id.income);
         employment = (TextView) findViewById(R.id.employment);
+        population = (TextView) findViewById(R.id.population);
 
         FragmentManager fm = getSupportFragmentManager();
         mapFrag = (MapFragment)fm.findFragmentById(R.id.map);
@@ -94,7 +95,8 @@ public class MapActivity extends AppCompatActivity {
     {
         money.setText("Money: " + GameData.get().getMoney());
         gameTime.setText("Time: " + GameData.get().getGameTime());
-        recentIncome.setText("Income: " + GameData.get().getRecentIncome());
+        recentIncome.setText("Income: " + GameData.get().getRecentIncomeString());
         employment.setText("Emploment rate: " + GameData.get().getEmployPercent() + "%");
+        population.setText("Population: " + GameData.get().getPopulation());
     }
 }

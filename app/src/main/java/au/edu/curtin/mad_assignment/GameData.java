@@ -125,9 +125,18 @@ public class GameData
         return population;
     }
 
-    public int getRecentIncome()
+    public String getRecentIncomeString()
     {
-        return recentIncome;
+        String str = "";
+        if(this.recentIncome > 0)
+        {
+            str = "+" + this.recentIncome;
+        }
+        else
+        {
+            str = String.valueOf(this.recentIncome);
+        }
+        return str;
     }
 
     public double getEmploymentRate()
