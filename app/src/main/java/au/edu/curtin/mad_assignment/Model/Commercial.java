@@ -1,6 +1,11 @@
-package au.edu.curtin.mad_assignment;
+package au.edu.curtin.mad_assignment.Model;
 
-class Commercial extends Structure
+import au.edu.curtin.mad_assignment.Database.GameData;
+
+/*
+    Structure type commercial model
+ */
+public class Commercial extends Structure
 {
     public Commercial(int imageId)
     {

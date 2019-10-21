@@ -1,4 +1,4 @@
-package au.edu.curtin.mad_assignment;
+package au.edu.curtin.mad_assignment.View;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,6 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import au.edu.curtin.mad_assignment.Database.GameData;
+import au.edu.curtin.mad_assignment.Model.MapElement;
+import au.edu.curtin.mad_assignment.Model.Settings;
+import au.edu.curtin.mad_assignment.R;
 
 /*
     fragment that handles the map of the game screen
@@ -119,7 +124,7 @@ public class MapFragment extends Fragment
 
         public void bind(MapElement element)
         {
-            //bind data on to the grid
+            //bind drawables on to the grid
             currentPlace = element;
             img1.setImageResource(element.getNorthWest());
             img2.setImageResource(element.getNorthEast());

@@ -1,4 +1,4 @@
-package au.edu.curtin.mad_assignment;
+package au.edu.curtin.mad_assignment.Database;
 
 /*
     model class for database table data

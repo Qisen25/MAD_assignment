@@ -1,15 +1,16 @@
-package au.edu.curtin.mad_assignment;
+package au.edu.curtin.mad_assignment.Database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import java.util.Map;
+import au.edu.curtin.mad_assignment.Database.GameDataSchema.SettingsTable;
+import au.edu.curtin.mad_assignment.Database.GameDataSchema.MapElementTable;
+import au.edu.curtin.mad_assignment.Database.GameDataSchema.PlayerDataTable;
 
-import au.edu.curtin.mad_assignment.GameDataSchema.SettingsTable;
-import au.edu.curtin.mad_assignment.GameDataSchema.MapElementTable;
-import au.edu.curtin.mad_assignment.GameDataSchema.PlayerDataTable;
-
+/*
+    class handling database and table creations
+ */
 public class GameDataDbHelper extends SQLiteOpenHelper
 {
     private static final int VERSION = 1;

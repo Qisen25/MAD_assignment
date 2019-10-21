@@ -1,12 +1,19 @@
-package au.edu.curtin.mad_assignment;
+package au.edu.curtin.mad_assignment.Database;
 
 import android.database.Cursor;
 import android.database.CursorWrapper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import au.edu.curtin.mad_assignment.GameDataSchema.MapElementTable;
+import au.edu.curtin.mad_assignment.Database.GameDataSchema.MapElementTable;
+import au.edu.curtin.mad_assignment.Model.Commercial;
+import au.edu.curtin.mad_assignment.Model.MapElement;
+import au.edu.curtin.mad_assignment.Model.Residential;
+import au.edu.curtin.mad_assignment.Model.Road;
 
+/*
+    cursor for retrieving map elements with structures from database map elements table
+ */
 public class MapElementCursor extends CursorWrapper
 {
     public MapElementCursor(Cursor cursor)

@@ -1,10 +1,13 @@
-package au.edu.curtin.mad_assignment;
+package au.edu.curtin.mad_assignment.Database;
 
 import android.database.Cursor;
 import android.database.CursorWrapper;
 
-import au.edu.curtin.mad_assignment.GameDataSchema.SettingsTable;
-
+import au.edu.curtin.mad_assignment.Database.GameDataSchema.SettingsTable;
+import au.edu.curtin.mad_assignment.Model.Settings;
+/*
+    cursor for retrieving settings from database settings table
+ */
 public class SettingsCursor extends CursorWrapper
 {
     public SettingsCursor(Cursor cursor)

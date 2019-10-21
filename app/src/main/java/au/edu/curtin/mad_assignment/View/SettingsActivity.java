@@ -1,4 +1,4 @@
-package au.edu.curtin.mad_assignment;
+package au.edu.curtin.mad_assignment.View;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,6 +8,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import au.edu.curtin.mad_assignment.Database.GameData;
+import au.edu.curtin.mad_assignment.Model.Settings;
+import au.edu.curtin.mad_assignment.R;
 
 public class SettingsActivity extends AppCompatActivity
 {
@@ -25,10 +29,10 @@ public class SettingsActivity extends AppCompatActivity
         setContentView(R.layout.activity_settings);
 
         gd = GameData.get();
-//        gd.load(getApplicationContext());//do not load again or money will be set to 1000
 
         Settings settings = gd.getSettings();
 
+        //get current values
         wD = settings.getMapWidth();
         hT = settings.getMapHeight();
         mN = settings.getInitialMoney();
@@ -54,6 +58,8 @@ public class SettingsActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
+                //statements successful if valid text is found
+                //other wise store current values again
                 if(!height.getText().toString().isEmpty())
                 {
                     hT = Integer.parseInt(height.getText().toString());
@@ -74,6 +80,7 @@ public class SettingsActivity extends AppCompatActivity
                     taxIn = Double.parseDouble(tax.getText().toString());
                 }
 
+                ///update settings
                 gd.editSetting(new Settings(wD, hT, mN, taxIn));
 
                 viewCurrentSettings(gd.getSettings());
@@ -82,6 +89,7 @@ public class SettingsActivity extends AppCompatActivity
 
     }
 
+    //make sure activity is finished on back press
     @Override
     public void onBackPressed()
     {

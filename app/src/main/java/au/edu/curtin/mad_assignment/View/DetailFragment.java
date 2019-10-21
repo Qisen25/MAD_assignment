@@ -1,4 +1,4 @@
-package au.edu.curtin.mad_assignment;
+package au.edu.curtin.mad_assignment.View;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -13,6 +13,11 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import au.edu.curtin.mad_assignment.Database.GameData;
+import au.edu.curtin.mad_assignment.Model.MapElement;
+import au.edu.curtin.mad_assignment.R;
+
 /*
     fragment that handles map elements details screen
  */
@@ -98,7 +103,7 @@ public class DetailFragment extends Fragment
 
         this.structTitle.setText(currElement.getStructure().getType());
 
-        ownName.addTextChangedListener(tw);//listen to changes in edit tex
+        ownName.addTextChangedListener(tw);//listen to changes in edit text
         if(currElement.getOwnerName() != null)
         {
             ownName.setText(currElement.getOwnerName());

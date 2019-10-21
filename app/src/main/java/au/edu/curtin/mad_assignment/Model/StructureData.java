@@ -1,17 +1,12 @@
-package au.edu.curtin.mad_assignment;
+package au.edu.curtin.mad_assignment.Model;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import au.edu.curtin.mad_assignment.R;
+
 /**
- * Stores the list of possible structures. This has a static get() method for retrieving an
- * instance, rather than calling the constructor directly.
- *
- * The remaining methods -- get(int), size(), add(Structure) and remove(int) -- provide
- * minimalistic list functionality.
- *
- * There is a static int array called DRAWABLES, which stores all the drawable integer references,
- * some of which are not actually used (yet) in a Structure object.
+ * mode class storing drawable structure data
  * REFERENCE: MAD prac3 resource. slightly modified
  */
 public class StructureData

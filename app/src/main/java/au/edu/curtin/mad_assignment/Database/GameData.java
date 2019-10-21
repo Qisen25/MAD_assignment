@@ -1,4 +1,4 @@
-package au.edu.curtin.mad_assignment;
+package au.edu.curtin.mad_assignment.Database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -9,9 +9,15 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import au.edu.curtin.mad_assignment.GameDataSchema.SettingsTable;
-import au.edu.curtin.mad_assignment.GameDataSchema.PlayerDataTable;
-import au.edu.curtin.mad_assignment.GameDataSchema.MapElementTable;
+import au.edu.curtin.mad_assignment.Database.GameDataSchema.SettingsTable;
+import au.edu.curtin.mad_assignment.Database.GameDataSchema.PlayerDataTable;
+import au.edu.curtin.mad_assignment.Database.GameDataSchema.MapElementTable;
+import au.edu.curtin.mad_assignment.Model.Commercial;
+import au.edu.curtin.mad_assignment.Model.MapElement;
+import au.edu.curtin.mad_assignment.Model.Residential;
+import au.edu.curtin.mad_assignment.Model.Road;
+import au.edu.curtin.mad_assignment.Model.Settings;
+
 /*
     class handling the games data
  */
@@ -127,16 +133,6 @@ public class GameData
 
     public String getRecentIncomeString()
     {
-//        String str = "";
-//        if(this.recentIncome > 0)
-//        {
-//            str = "+$" + this.recentIncome;
-//        }
-//        else
-//        {
-//            str = String.valueOf(this.recentIncome);
-//        }
-//        return str;
         return dollarToString(this.recentIncome,"+", "-");
     }
 
@@ -186,7 +182,7 @@ public class GameData
         return this.mapDBList.size();
     }
 
-    //to reset game, currently not used by game
+    //to reset game, currently not used by the game
     public void reset()
     {
         this.settings = new Settings();
@@ -246,7 +242,7 @@ public class GameData
     }
 
     //adding structures to game data
-    protected void addStructure(MapElement ele)
+    public void addStructure(MapElement ele)
     {
         this.mapDBList.add(ele);
 
@@ -263,7 +259,7 @@ public class GameData
     }
 
     //update map element ownernames and images
-    protected void updateMapElement(MapElement ele)
+    public void updateMapElement(MapElement ele)
     {
         ContentValues cv = new ContentValues();
         cv.put(MapElementTable.Cols.OWNER_NAME, ele.getOwnerName());
@@ -275,7 +271,7 @@ public class GameData
     }
 
     //remove structure
-    protected void removeStructure(MapElement ele)
+    public void removeStructure(MapElement ele)
     {
         this.mapDBList.remove(ele);
 
@@ -284,7 +280,7 @@ public class GameData
     }
 
     //close database to prevent errors when not using
-    protected void closeDB()
+    public void closeDB()
     {
         if(this.db != null)
         {
@@ -293,7 +289,7 @@ public class GameData
     }
 
     //increase game time logic
-    protected void endTurn()
+    public void endTurn()
     {
         this.gameTime++;
         this.recentIncome = this.gameLogic();
@@ -342,6 +338,7 @@ public class GameData
     }
 
     //get saved player stats
+    //return cursor since it can useful to determine if game has begun
     private PlayerDataCursor getDBPlayerData(SQLiteDatabase db)
     {
         PlayerDataCursor playerCursor = new PlayerDataCursor(db.query(PlayerDataTable.NAME, null, null, null,
@@ -376,7 +373,7 @@ public class GameData
             mapCursor.moveToFirst();
             while(!mapCursor.isAfterLast())
             {
-                temp.add(mapCursor.getStructures());
+                temp.add(mapCursor.getStructures());//get saved structures
                 mapCursor.moveToNext();
             }
         }
@@ -385,7 +382,7 @@ public class GameData
             mapCursor.close();
         }
 
-        this.mapDBList = temp;
+        this.mapDBList = temp;//set new list
     }
 
     //function to store default when player has newly started
@@ -423,7 +420,7 @@ public class GameData
         for(MapElement m : mapDBList)
         {
 
-            if(m.getStructure() instanceof  Residential && type.equals("house"))
+            if(m.getStructure() instanceof Residential && type.equals("house"))
             {
                 num++;
             }

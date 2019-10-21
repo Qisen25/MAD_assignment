@@ -1,4 +1,4 @@
-package au.edu.curtin.mad_assignment;
+package au.edu.curtin.mad_assignment.View;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,8 +10,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import au.edu.curtin.mad_assignment.Model.Structure;
+import au.edu.curtin.mad_assignment.Model.StructureData;
+import au.edu.curtin.mad_assignment.R;
+
 /*
     fragment that handles structure selection
+    REFERENCE: From MAD prac 3, modified to suit assignment
  */
 public class SelectorFragment extends Fragment
 {

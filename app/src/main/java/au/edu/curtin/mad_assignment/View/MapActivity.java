@@ -1,4 +1,4 @@
-package au.edu.curtin.mad_assignment;
+package au.edu.curtin.mad_assignment.View;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,9 +10,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import au.edu.curtin.mad_assignment.Database.GameData;
+import au.edu.curtin.mad_assignment.R;
+
 /*
     activity handling the game screen
-    REFERENCE: From MAD prac 3 with slight modifications
+    REFERENCE: From MAD prac 3, modified to suit assignment specs
  */
 public class MapActivity extends AppCompatActivity {
 
@@ -32,6 +35,7 @@ public class MapActivity extends AppCompatActivity {
         employment = (TextView) findViewById(R.id.employment);
         population = (TextView) findViewById(R.id.population);
 
+        //set up map and building selector fragments
         FragmentManager fm = getSupportFragmentManager();
         mapFrag = (MapFragment)fm.findFragmentById(R.id.map);
         selFrag = (SelectorFragment) fm.findFragmentById(R.id.selector);

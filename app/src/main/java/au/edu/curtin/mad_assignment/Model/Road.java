@@ -1,6 +1,11 @@
-package au.edu.curtin.mad_assignment;
+package au.edu.curtin.mad_assignment.Model;
 
-class Road extends Structure
+import au.edu.curtin.mad_assignment.Database.GameData;
+
+/*
+    structure type road model
+ */
+public class Road extends Structure
 {
 
     public Road(int imageId)

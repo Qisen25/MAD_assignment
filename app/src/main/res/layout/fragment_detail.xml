@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DetailFragment"
+    tools:context=".View.DetailFragment"
     android:clickable="true"
     android:background="#F5DEB3">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MapActivity">
+        tools:context=".View.MapActivity">
 
         <TextView
             android:id="@+id/detailTitle"

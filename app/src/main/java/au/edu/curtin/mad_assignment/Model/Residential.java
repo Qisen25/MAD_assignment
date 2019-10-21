@@ -1,6 +1,11 @@
-package au.edu.curtin.mad_assignment;
+package au.edu.curtin.mad_assignment.Model;
 
-class Residential extends Structure
+import au.edu.curtin.mad_assignment.Database.GameData;
+
+/*
+    structure type Residential model
+ */
+public class Residential extends Structure
 {
 
     public Residential(int imageId)

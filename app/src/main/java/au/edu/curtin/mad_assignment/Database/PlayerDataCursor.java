@@ -1,12 +1,11 @@
-package au.edu.curtin.mad_assignment;
+package au.edu.curtin.mad_assignment.Database;
 
 import android.database.Cursor;
 import android.database.CursorWrapper;
 
-import au.edu.curtin.mad_assignment.GameDataSchema.SettingsTable;
-
 /*
-    cursor retrieve game time and the money player currently has
+    cursor retrieve game time and the money player currently has saved in database
+    player data table
  */
 public class PlayerDataCursor extends CursorWrapper
 {

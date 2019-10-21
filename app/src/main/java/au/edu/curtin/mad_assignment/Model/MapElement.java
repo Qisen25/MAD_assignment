@@ -1,6 +1,9 @@
-package au.edu.curtin.mad_assignment;
+package au.edu.curtin.mad_assignment.Model;
 
 import android.graphics.Bitmap;
+
+import au.edu.curtin.mad_assignment.R;
+
 /*
     Map element model class
     REFERENCE: MAD prac3, slightly modified to suit assignment specs

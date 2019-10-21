@@ -1,4 +1,4 @@
-package au.edu.curtin.mad_assignment;
+package au.edu.curtin.mad_assignment.View;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +7,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import au.edu.curtin.mad_assignment.Database.GameData;
+import au.edu.curtin.mad_assignment.R;
+
+//main
 public class MainActivity extends AppCompatActivity
 {
     private Button startGame, settings;
@@ -62,7 +66,7 @@ public class MainActivity extends AppCompatActivity
     {
         if(resultCode == RESULT_OK && (requestCode == REQUEST_CODE_GAME || requestCode == REQUEST_CODE_SETTINGS))
         {
-            gd.closeDB();// close database after exiting each activity
+            gd.closeDB();// close database after exiting each activity to prevent errors
         }
     }
 
