@@ -13,6 +13,7 @@ import android.widget.ImageView;
 
 /*
     fragment that handles the map of the game screen
+    REFERENCE: From MAD prac 3, modified to handle game data and interaction
  */
 public class MapFragment extends Fragment
 {
@@ -96,6 +97,7 @@ public class MapFragment extends Fragment
             });
 
             //remove when holding click
+            //see android docs for more info about this
             img5.setOnLongClickListener(new View.OnLongClickListener()
             {
                 @Override
@@ -117,6 +119,7 @@ public class MapFragment extends Fragment
 
         public void bind(MapElement element)
         {
+            //bind data on to the grid
             currentPlace = element;
             img1.setImageResource(element.getNorthWest());
             img2.setImageResource(element.getNorthEast());

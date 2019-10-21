@@ -3,7 +3,7 @@ package au.edu.curtin.mad_assignment;
 import android.graphics.Bitmap;
 /*
     Map element model class
-    REFERENCE: MAD prac3, slightly modified
+    REFERENCE: MAD prac3, slightly modified to suit assignment specs
  */
 public class MapElement
 {

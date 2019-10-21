@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 /*
     activity handling the game screen
+    REFERENCE: From MAD prac 3 with slight modifications
  */
 public class MapActivity extends AppCompatActivity {
 
@@ -93,7 +94,7 @@ public class MapActivity extends AppCompatActivity {
     //update player displayed stats
     public void updateHud()
     {
-        money.setText("Money: " + GameData.get().getMoney());
+        money.setText("Money: " + GameData.get().getMoneyString());
         gameTime.setText("Time: " + GameData.get().getGameTime());
         recentIncome.setText("Income: " + GameData.get().getRecentIncomeString());
         employment.setText("Emploment rate: " + GameData.get().getEmployPercent() + "%");

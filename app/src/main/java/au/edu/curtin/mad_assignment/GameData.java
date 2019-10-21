@@ -127,16 +127,22 @@ public class GameData
 
     public String getRecentIncomeString()
     {
-        String str = "";
-        if(this.recentIncome > 0)
-        {
-            str = "+" + this.recentIncome;
-        }
-        else
-        {
-            str = String.valueOf(this.recentIncome);
-        }
-        return str;
+//        String str = "";
+//        if(this.recentIncome > 0)
+//        {
+//            str = "+$" + this.recentIncome;
+//        }
+//        else
+//        {
+//            str = String.valueOf(this.recentIncome);
+//        }
+//        return str;
+        return dollarToString(this.recentIncome,"+", "-");
+    }
+
+    public String getMoneyString()
+    {
+        return dollarToString(this.money,"", "-");
     }
 
     public double getEmploymentRate()
@@ -450,5 +456,26 @@ public class GameData
         {
             return null;
         }
+    }
+
+    //converts money or income to a String with dollar sign,
+    // negative or positive sign can concat to money
+    private String dollarToString(int theMoney, String positive, String negative)
+    {
+        String str = "";
+        if(theMoney > 0)
+        {
+            str = positive + "$" + theMoney;
+        }
+        else if(theMoney < 0)
+        {
+            str = negative + "$" + Math.abs(theMoney);
+        }
+        else
+        {
+            str = String.valueOf(theMoney);
+        }
+
+        return str;
     }
 }
